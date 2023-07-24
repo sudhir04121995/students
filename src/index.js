@@ -11,12 +11,14 @@ import AppProvider from './Context/AppProvider.js';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   
-  <AppProvider>
+  
     <BrowserRouter>
+    <AppProvider>
     <App/>
+    </AppProvider>
     </BrowserRouter>
 
-  </AppProvider>
+  
 
 );
 

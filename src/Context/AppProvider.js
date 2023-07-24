@@ -1,55 +1,65 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react";
+import { Await } from "react-router-dom";
+import { API } from "../API/api";
 
 const AppCtx = createContext();
- 
-function AppProvider({Children}){
 
-    const database = [
-        {
-          id: 1,
-          name: "sudhir",
-          batch: "B47",
-          email: "dfguhh@gmail.com",
-          phone: 87766964479,
-          qualification: "B.E",
-        },
-        {
-          id: 2,
-          name: "VICKY",
-          batch: "B47",
-          email: "dfguhh@gmail.com",
-          phone: 87766964479,
-          qualification: "B.E",
-        },
-      ];
-      const pages = [
-        {
-          name: "students",
-          path: "/student/all",
-        },
-      ]; 
+function AppProvider({ children }) {
+  // const database = [
+  //     {
+  //       id: 1,
+  //       name: "sudhir",
+  //       batch: "B47",
+  //       email: "dfguhh@gmail.com",
+  //       phone: 87766964479,
+  //       qualification: "B.E",
+  //     },
+  //     {
+  //       id: 2,
+  //       name: "VICKY",
+  //       batch: "B47",
+  //       email: "dfguhh@gmail.com",
+  //       phone: 87766964479,
+  //       qualification: "B.E",
+  //     },
+  //   ];
+  const pages = [
+    {
+      name: "students",
+      path: "/student/all",
+    },
+  ];
 
-    const [studentData, setData] = useState(database);
-    const [crumState, setCrumState] = useState(pages);
+  const [studentData, setData] = useState([]);
+  const [crumState, setCrumState] = useState(pages);
 
-    return(
-        <AppCtx.Provider 
-            value={{
-            studentData,
-            setData,
-            crumState, 
-            setCrumState
-        }}
-        >
+  useEffect(() => {
+    const getAllStudents = async () => {
+      const response = await fetch(API, {
+        method: "GET",
+      });
 
-{Children}
+      const data = await response.json();
+      setData(data);
+    };
+    getAllStudents();
+  }, []);
 
-        </AppCtx.Provider>
-
-    )
+  return (
+    <AppCtx.Provider
+      value={{
+        studentData,
+        setData,
+        crumState,
+        setCrumState,
+      }}
+    >
+      {children}
+    </AppCtx.Provider>
+  );
 }
 
-export const AppState = () =>{
-    return useContext(AppCtx);
-}
+export const AppState = () => {
+  return useContext(AppCtx);
+};
 export default AppProvider;
