@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<NoPage />} />
+        <Route path="/" element={< Dashboard />} />
 
         <Route path="/student/add" element={<AddStudents/>} />
 
