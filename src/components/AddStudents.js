@@ -1,45 +1,174 @@
 import { useState } from "react";
 import Base from "../BasePage/Base";
 import { AppState } from "../Context/AppProvider";
+import { API } from "../API/api";
+import { json } from "react-router-dom";
+import { useFormik } from "formik";
+import { studentSchema } from "../schema/schema";
 // import { useNavigate } from "react-router-dom";
 
 
 function AddStudents() {
-  const {studentData,setData} = AppState()
 
-  const [id, setId] = useState("");
-  const [name, setName] = useState("");
-  const [batch, setBatch] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [qualification, setQualification] = useState("");
-
-  function addNewStudents(){
-    const newStudentsObject={
-      id : parseInt(id),
-      name,
-      batch,
-      email,
-      phone,
-      qualification
+  //Form validation logic
+ 
+  const {values ,handleChange,handleSubmit,handleBlur,errors,touched}= useFormik({
+    initialValues : {
+      name:"",
+      batch:"",
+      email:"",
+      phone:"",
+      qualification:"",
+    },
+    validationSchema : studentSchema,
+    onSubmit : (newStudent)=>{
+      console.log(newStudent)
+      addNewStudents(newStudent)
     }
-    console.log(newStudentsObject)
+  })
 
-    setData([...studentData,newStudentsObject]);
+  const {studentData,setData} = AppState()
+  // const [id, setId] = useState("");
+  // const [name, setName] = useState("");
+  // const [batch, setBatch] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [phone, setPhone] = useState("");
+  // const [qualification, setQualification] = useState("");
 
-    setId("");
-    setName("");
-    setBatch("");
-    setEmail("");
-    setPhone("");
-    setQualification("") 
+  async function addNewStudents(newStudent){
+    // const newStudentsObject={
+    
+    //   name,
+    //   batch,
+    //   email,
+    //   phone,
+    //   qualification
+    // }
+    const response = await fetch(API,{
+      method:"POST",
+      body : JSON.stringify(newStudent),
+      headers:{
+        "Content-Type":"application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data)
+
+    setData([...studentData,data]);
+    values.name = ""
+    values.batch =""
+    values.email =""
+    values.phone =""
+    values.qualification=""
   }
 
   return (
-    <Base>
+    <Base> 
       <div p-5>Please fill the form to add new student</div>
       <div className="form-control">
+        <form onSubmit={handleSubmit}>
         <label className="input-group input-group-md m-2">
+          <span>Name</span>
+          <input type="text" 
+          placeholder="Enter Student Name"
+           className="input input-bordered input-md w-96" 
+           value={values.name}
+           onChange={handleChange}
+           onBlur={handleBlur}
+           name="name"
+           />
+        </label>
+
+        {touched.name && errors.name ?
+        <div className="text-red-300">
+          {errors.name}
+          </div> : ""}
+
+        <label className="input-group input-group-md m-2">
+          <span>Batch</span>
+          <input type="text" 
+          placeholder="Enter Student Batch"
+           className="input input-bordered input-md w-96" 
+           value={values.batch}
+           onChange={handleChange}
+           onBlur={handleBlur}
+           name="batch"
+           />
+        </label>
+
+        {touched.batch && errors.batch ?
+        <div className="text-red-300">
+          {errors.batch}
+          </div> : ""}
+
+        <label className="input-group input-group-md m-2">
+          <span>Email</span>
+          <input type="text"
+           placeholder="Enter Student Email" 
+           className="input input-bordered input-md w-96" 
+           value={values.email}
+           onChange={handleChange}
+           onBlur={handleBlur}
+           name="email"
+           />
+        </label>
+
+        {touched.email && errors.email ?
+        <div className="text-red-300">
+          {errors.email}
+          </div> : ""}
+
+        <label className="input-group input-group-md m-2">
+          <span>Phone</span>
+          <input type="text"
+           placeholder="Enter Student Phone"
+            className="input input-bordered input-md w-96"
+            value={values.phone} 
+            onChange={handleChange}
+           onBlur={handleBlur}
+           name="phone"
+           />
+        </label>
+
+        {touched.phone && errors.phone ?
+        <div className="text-red-300">
+          {errors.phone}
+          </div> : ""}
+
+        <label className="input-group input-group-md m-2">
+          <span>Education</span>
+          <input type="text"
+           placeholder="Enter Student Education" 
+           className="input input-bordered input-md w-96" 
+           value={values.qualification} 
+           onChange={handleChange}
+           onBlur={handleBlur}
+           name="qualification"
+           />
+        </label>
+
+        {touched.qualification && errors.qualification ?
+        <div className="text-red-300">
+          {errors.qualification}
+          </div> : ""}
+
+        <button className=" rounded-full bg-base-200 p-2 m-5"
+        type="submit"
+        // onClick={addNewStudents} 
+        >
+          Add Student
+        </button> 
+        </form>
+       
+      </div>
+    </Base>
+  )
+}
+
+export default AddStudents;
+
+//(e)=>setName(e.target.value)
+ /* <label className="input-group input-group-md m-2">
           <span>Id</span>
           <input
            type="number"
@@ -47,52 +176,4 @@ function AddStudents() {
             className="input input-bordered input-md w-96 " 
             value={id}
             onChange={(e)=>setId(e.target.value)}/>
-        </label>
-        <label className="input-group input-group-md m-2">
-          <span>Name</span>
-          <input type="text" 
-          placeholder="Enter Student Name"
-           className="input input-bordered input-md w-96" 
-           value={name}
-           onChange={(e)=>setName(e.target.value)}/>
-        </label>
-        <label className="input-group input-group-md m-2">
-          <span>Batch</span>
-          <input type="text" 
-          placeholder="Enter Student Batch"
-           className="input input-bordered input-md w-96" 
-           value={batch}
-           onChange={(e)=>setBatch(e.target.value)}/>
-        </label>
-        <label className="input-group input-group-md m-2">
-          <span>Email</span>
-          <input type="text"
-           placeholder="Enter Student Email" 
-           className="input input-bordered input-md w-96" 
-           value={email}
-           onChange={(e)=>setEmail(e.target.value)}/>
-        </label>
-        <label className="input-group input-group-md m-2">
-          <span>Phone</span>
-          <input type="text"
-           placeholder="Enter Student Phone"
-            className="input input-bordered input-md w-96"
-            value={phone} 
-            onChange={(e)=>setPhone(e.target.value)}/>
-        </label>
-        <label className="input-group input-group-md m-2">
-          <span>Education</span>
-          <input type="text"
-           placeholder="Enter Student Education" 
-           className="input input-bordered input-md w-96" 
-           value={qualification} 
-            onChange={(e)=>setQualification(e.target.value)}/>
-        </label>
-        <button className=" rounded-full bg-base-200 p-2 m-5"
-        onClick={addNewStudents} >Add Student</button> 
-      </div>
-    </Base>
-  )
-}
-
-export default AddStudents;
+        </label>  */

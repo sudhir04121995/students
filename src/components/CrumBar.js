@@ -1,11 +1,8 @@
 import { Link } from "react-router-dom";
 import { AppState } from "../Context/AppProvider";
 
-
-export default function CrumBar( ){
-
-  const {crumState , setCrumState}= AppState()
-  
+export default function CrumBar(){
+  const {crumState , setCrumState} = AppState()
 
 function removeRemaining(id){
   let removalValue = +id +1;
