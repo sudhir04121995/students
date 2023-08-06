@@ -1,4 +1,5 @@
 
+import { useNavigate } from "react-router-dom";
 import Base from "../BasePage/Base"
 import { AppState } from "../Context/AppProvider";
 import CrumBar from "./CrumBar"
@@ -6,7 +7,7 @@ import StudentCard from "./StudentCard"
 import { useState } from "react";
 
 function StudentList(){
-
+    const navigate = useNavigate();
     const {studentData} =AppState();
     const [currentPage , setPage] = useState(1)
 
@@ -14,6 +15,12 @@ function StudentList(){
         
         <Base>
         <CrumBar/>
+        <div className="p-2 m-2 flex" >
+        <button className=" rounded-full bg-base-200 p-3 m-5"
+     onClick={()=>navigate("/student/add")}
+     >Add More Students</button>
+
+        </div>
         {studentData.slice(currentPage*2-2, currentPage*2).map((stud, idx)=>(
               <StudentCard
               student={stud}

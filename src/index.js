@@ -5,17 +5,29 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import AppProvider from './Context/AppProvider.js';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import LogInReducers from './Reducers/LogInReducers';
 
 
+
+const store = configureStore({
+    reducer :{
+        loginInfo : LogInReducers ,
+        
+    }
+})
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   
   
     <BrowserRouter>
+    <Provider store={store}>
     <AppProvider>
     <App/>
     </AppProvider>
+    </Provider>
     </BrowserRouter>
 
   
@@ -26,3 +38,7 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+
+
+
