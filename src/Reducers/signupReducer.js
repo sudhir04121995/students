@@ -16,13 +16,11 @@ const signupSlice = createSlice({
             console.log(action.payload)
             state.data=action.payload
             postStudentData(action.payload)
-           
-
         }
     }
 });
 
-export const {signupUser} =signupSlice.actions;
+export const {signupUser} = signupSlice.actions;
 export default signupSlice.reducer
 
 
