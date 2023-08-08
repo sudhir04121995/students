@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { Await } from "react-router-dom";
 import { API } from "../API/api";
 
 const AppCtx = createContext();

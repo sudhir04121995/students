@@ -3,7 +3,7 @@ import { userAPI } from "../API/api";
 
 
 const signupSlice = createSlice({
-    name: "signupInfo",
+    name : "signupInfo",
     initialState : {
         data : {
             username : "",
@@ -33,5 +33,5 @@ async function postStudentData(payload){
         }
     });
     const data = await res.json();
-    console.log(data);
+    localStorage.setItem("username",data.username)
 }

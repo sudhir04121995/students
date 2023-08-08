@@ -25,7 +25,7 @@ function EditStudents() {
     setEmail(selectedStudent.email);
     setPhone(selectedStudent.phone);
     setQualification(selectedStudent.qualification);
-  },[]);
+  },[id,studentData]);
 
   async function editStudent() {
     const editStudentObject = {

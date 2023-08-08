@@ -10,7 +10,7 @@ import { signupUser } from "../Reducers/signupReducer";
 
 
 export default function Dashboard({student}){
-  const [userName , setUserName] =useState("");
+  const [username , setUserName] =useState("");
   const [password , setPassword] = useState("");
   const [email , setEmail] = useState("");
   const [tab,  setTab] = useState(1);
@@ -18,20 +18,22 @@ export default function Dashboard({student}){
 
 const userLogin = ()=>{
   const userData = {
-    userName,
+    username,
     password
   }
   console.log(userData)
   dispatch(loginUser(userData))
-}
+} 
+
 const userSignUp = ()=>{
   const signUpData = {
-    userName,
-    email,
-    password
+    username,
+    password,
+    email
   }
   dispatch(signupUser(signUpData));
 }
+
 return(
       <Base>
      <h1 className="text-lg font-bold p-2 m-2">Welcome to students app</h1>
@@ -51,7 +53,7 @@ return(
           <input type="text" 
           placeholder="Enter Student Name"
            className="input input-bordered input-md w-96"
-           value={userName}
+           value={username}
            onChange={(e)=>setUserName(e.target.value)}
            />
         </label>
@@ -81,7 +83,7 @@ return(
       <input type="username" 
       placeholder="Enter Student Name"
        className="input input-bordered input-md w-96"
-       value={userName}
+       value={username}
        onChange={(e)=>setUserName(e.target.value)}
        />
     </label>
@@ -108,7 +110,6 @@ return(
     
     <button className=" bg-base-200 p-2 m-2"
     onClick={userSignUp}
-    type="submit"
     >
       signup
     </button> 
