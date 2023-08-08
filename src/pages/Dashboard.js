@@ -1,19 +1,119 @@
 
 
-import { useNavigate } from "react-router-dom";
+
+import { useState } from "react";
 import Base from "../BasePage/Base";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../Reducers/LogInReducers";
+import { signupUser } from "../Reducers/signupReducer";
 
 
 
 export default function Dashboard({student}){
-   const navigate = useNavigate()
-    return(
-      <Base>
-     <h1>Welcome to students app</h1>
+  const [userName , setUserName] =useState("");
+  const [password , setPassword] = useState("");
+  const [email , setEmail] = useState("");
+  const [tab,  setTab] = useState(1);
+ const dispatch = useDispatch()
 
-     <button className=" rounded-full bg-base-200 p-3 m-5"
-     onClick={()=>navigate("/student/add")}
-     >Add More Students</button>
+const userLogin = ()=>{
+  const userData = {
+    userName,
+    password
+  }
+  console.log(userData)
+  dispatch(loginUser(userData))
+}
+const userSignUp = ()=>{
+  const signUpData = {
+    userName,
+    email,
+    password
+  }
+  dispatch(signupUser(signUpData));
+}
+return(
+      <Base>
+     <h1 className="text-lg font-bold p-2 m-2">Welcome to students app</h1>
+
+     <div className="tabs p-2 m-2 w-full bg-base-100">
+  <button className="tab w-1/2"
+  onClick={()=>setTab(1)}
+  >Sign up</button> 
+  <button className="tab w-1/2"
+  onClick={()=>setTab(2)}
+  >Log in</button> 
+    </div>
+    <div className="form-control" style={{display: tab ===2 ? "block" : "none"}}>
+    
+        <label className="input-group input-group-md m-2">
+          <span>username</span>
+          <input type="text" 
+          placeholder="Enter Student Name"
+           className="input input-bordered input-md w-96"
+           value={userName}
+           onChange={(e)=>setUserName(e.target.value)}
+           />
+        </label>
+
+        <label className="input-group input-group-md m-2">
+          <span> Password</span>
+          <input type="text" 
+          placeholder="Enter Student Name"
+           className="input input-bordered input-md w-96"
+           value={password}
+           onChange={(e)=>setPassword(e.target.value)}
+           />
+        </label>
+        
+        <button className=" bg-base-200 p-2 m-2"
+        onClick={userLogin}
+        type="submit"
+        >
+          Log in
+        </button> 
+  </div>
+
+  <div className="form-control " style={{display: tab ===1 ? "block" : "none"}}>
+    
+    <label className="input-group input-group-md m-2">
+      <span>username</span>
+      <input type="username" 
+      placeholder="Enter Student Name"
+       className="input input-bordered input-md w-96"
+       value={userName}
+       onChange={(e)=>setUserName(e.target.value)}
+       />
+    </label>
+
+    <label className="input-group input-group-md m-2">
+      <span> Password</span>
+      <input type="password" 
+      placeholder="Enter Student Name"
+       className="input input-bordered input-md w-96"
+       value={password}
+       onChange={(e)=>setPassword(e.target.value)}
+       />
+    </label>
+
+    <label className="input-group input-group-md m-2">
+      <span> Email Add </span>
+      <input type="email" 
+      placeholder="Enter Student Name"
+       className="input input-bordered input-md w-96"
+       value={email}
+       onChange={(e)=>setEmail(e.target.value)}
+       />
+    </label>
+    
+    <button className=" bg-base-200 p-2 m-2"
+    onClick={userSignUp}
+    type="submit"
+    >
+      signup
+    </button> 
+</div>
+    
       </Base>
 
     )}

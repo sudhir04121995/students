@@ -1,7 +1,12 @@
+import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { logoutUsers } from "../Reducers/LogInReducers"
 
 function SideBar(){
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const logout =()=>dispatch(logoutUsers())
     return(
         <div className="side-bar-styles p-8">
            <div>
@@ -29,7 +34,9 @@ function SideBar(){
                 </ul>
            </div>
                 <div className="logout-btn rounded-full  hover:bg-sky-700 p-2">
-                   <button>Logout</button>
+                   <button
+                 onClick={logout} 
+                   >Logout</button>
                 </div>
             
         </div>

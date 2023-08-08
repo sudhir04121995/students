@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 
 function TopBar(){
  const {userName} = useSelector(state =>state.loginInfo.data)
+ console.log(useSelector((state)=>state))
     return(
         <div className="navbar bg-neutral text-neutral-content tool-bar rounded-lg">
         <div className="flex-1">
